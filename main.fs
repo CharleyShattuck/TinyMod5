@@ -5,6 +5,8 @@ target
 0 wconstant INPUT
 1 wconstant OUTPUT
 2 wconstant INPUT_PULLUP
+\ use 1 for HIGH
+\ and 0 for LOW
 
 \ serial mode's array 
 variable data 4 ramALLOT \ 6 bytes in all
@@ -127,29 +129,29 @@ wvariable 'spit  \ execution tokens are 16 bits
     rot dup >r and if/ Keyboard.write r> exit then
     drop BL Keyboard.write r> ;
 : send-A-Z ( stroke) 
-    [ char # ] #, $0000020 #, spout
-    [ char S ] #, $0180000 #, spout
-    [ char T ] #, $0200000 #, spout
-    [ char K ] #, $0040000 #, spout
-    [ char P ] #, $0400000 #, spout
-    [ char W ] #, $0020000 #, spout
-    [ char H ] #, $0800000 #, spout
-    [ char R ] #, $0010000 #, spout
-    [ char A ] #, $0000008 #, spout
-    [ char O ] #, $0000010 #, spout
-    [ char * ] #, $1000200 #, spout
-    [ char E ] #, $0000040 #, spout
-    [ char U ] #, $0000080 #, spout
-    [ char F ] #, $0008000 #, spout
-    [ char R ] #, $0000001 #, spout
-    [ char P ] #, $0004000 #, spout
-    [ char B ] #, $0000002 #, spout
-    [ char L ] #, $0002000 #, spout
-    [ char G ] #, $0000004 #, spout
-    [ char T ] #, $0001000 #, spout
-    [ char S ] #, $0000800 #, spout
-    [ char D ] #, $0000100 #, spout
-    [ char Z ] #, $0000400 #, spout
+    [char] # $0000020 #, spout
+    [char] S $0180000 #, spout
+    [char] T $0200000 #, spout
+    [char] K $0040000 #, spout
+    [char] P $0400000 #, spout
+    [char] W $0020000 #, spout
+    [char] H $0800000 #, spout
+    [char] R $0010000 #, spout
+    [char] A $0000008 #, spout
+    [char] O $0000010 #, spout
+    [char] * $1000200 #, spout
+    [char] E $0000040 #, spout
+    [char] U $0000080 #, spout
+    [char] F $0008000 #, spout
+    [char] R $0000001 #, spout
+    [char] P $0004000 #, spout
+    [char] B $0000002 #, spout
+    [char] L $0002000 #, spout
+    [char] G $0000004 #, spout
+    [char] T $0001000 #, spout
+    [char] S $0000800 #, spout
+    [char] D $0000100 #, spout
+    [char] Z $0000400 #, spout
     5 #, ms 10 #, Keyboard.write
     5 #, ms 13 #, Keyboard.write
     drop ;
@@ -162,37 +164,37 @@ cvariable former
     drop former c! ; 
 : send-NKRO ( n - )
     false former c!
-    dup  $100000 #, and if/ [ char q ] #, spew then
-    dup  $200000 #, and if/ [ char w ] #, spew then
-    dup  $400000 #, and if/ [ char e ] #, spew then
-    dup  $800000 #, and if/ [ char r ] #, spew then
-    dup $1000000 #, and if/ [ char t ] #, spew then
-    dup $8000 #, and if/ [ char u ] #, spew then
-    dup $4000 #, and if/ [ char i ] #, spew then
-    dup $2000 #, and if/ [ char o ] #, spew then
-    dup $1000 #, and if/ [ char p ] #, spew then
-    dup  $100 #, and if/ [ char [ ] #, spew then
-    dup $80000 #, and if/ [ char a ] #, spew then
-    dup $40000 #, and if/ [ char s ] #, spew then
-    dup $20000 #, and if/ [ char d ] #, spew then
-    dup $10000 #, and if/ [ char f ] #, spew then
-    dup   $200 #, and if/ [ char g ] #, spew then
-    dup  $01 #, and if/ [ char j ] #, spew then
-    dup  $02 #, and if/ [ char k ] #, spew then
-    dup  $04 #, and if/ [ char l ] #, spew then
-    dup $800 #, and if/ [ char ; ] #, spew then
-    dup $400 #, and if/ [ char ' ] #, spew then
-    dup $08 #, and if/ [ char c ] #, spew then
-    dup $10 #, and if/ [ char v ] #, spew then
-    dup $20 #, and if/ [ char 3 ] #, spew then
-    dup $40 #, and if/ [ char n ] #, spew then
-    dup $80 #, and if/ [ char m ] #, spew then
+    dup  $100000 #, and if/ [char] q spew then
+    dup  $200000 #, and if/ [char] w spew then
+    dup  $400000 #, and if/ [char] e spew then
+    dup  $800000 #, and if/ [char] r spew then
+    dup $1000000 #, and if/ [char] t spew then
+    dup    $8000 #, and if/ [char] u spew then
+    dup    $4000 #, and if/ [char] i spew then
+    dup    $2000 #, and if/ [char] o spew then
+    dup    $1000 #, and if/ [char] p spew then
+    dup     $100 #, and if/ [char] [ spew then \ ] syntax coloring
+    dup   $80000 #, and if/ [char] a spew then
+    dup   $40000 #, and if/ [char] s spew then
+    dup   $20000 #, and if/ [char] d spew then
+    dup   $10000 #, and if/ [char] f spew then
+    dup     $200 #, and if/ [char] g spew then
+    dup      $01 #, and if/ [char] j spew then
+    dup      $02 #, and if/ [char] k spew then
+    dup      $04 #, and if/ [char] l spew then
+    dup     $800 #, and if/ [char] ; spew then
+    dup     $400 #, and if/ [char] ' spew then
+    dup      $08 #, and if/ [char] c spew then
+    dup      $10 #, and if/ [char] v spew then
+    dup      $20 #, and if/ [char] 3 spew then
+    dup      $40 #, and if/ [char] n spew then
+    dup      $80 #, and if/ [char] m spew then
     drop Keyboard.releaseAll ; 
 
 \ slider switch determines the protocol
 : @sliders ( - n)
     5 #, @pin invert 4 #, and
-    18 #, @pin invert 2 #, and or
+   18 #, @pin invert 2 #, and or
     7 #, @pin invert 1 #, and or ;
 
 create protocols

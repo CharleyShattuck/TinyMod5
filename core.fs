@@ -139,6 +139,7 @@ code @pin 74 ,
 :m #,  lit [ dup $ffff and ] , [ $10000 / $ffff and ] , m;
 :m [']  [ ' >body @ ] #, m;
 :m ',  [ ' >body @ ] , m;
+:m [char]  char #, m;
 :m ,"  here 0 , [ [char] " word count 0 do
         count ,-t loop drop ]
     here [ over - 2/ 1 - swap !-t ] m;
