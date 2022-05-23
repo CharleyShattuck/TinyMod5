@@ -45,9 +45,9 @@ code key  5 ,
 -code 0branch  8 ,
 -code +branch  9 ,
 -code (next)  10 ,
-code >r  11 ,
-code r>  12 ,
-code r@  13 ,
+-code >r  11 ,
+-code r>  12 ,
+-code r@  13 ,
 code .sh  15 ,
 code d#  16 ,
 code counter  17 ,
@@ -84,7 +84,7 @@ code c!+  47 ,
 code !+  48 ,
 code depth  49 ,
 code execute  50 ,
-code huh?  51 ,
+-code huh?  51 ,
 code c@+  52 ,
 code w@+  53 ,
 code um*  54 ,
@@ -146,7 +146,7 @@ code @pin 74 ,
 :m s"  (s") ," m;
 : 1+  1 #, + ;
 : 1-  -1 #, + ;
-: ptype ( a l - )  swap p! 1- for @p+ emit next ;
+-: ptype ( a l - )  swap p! 1- for @p+ emit next ;
 :m ."  s" ptype m;
 
 variable tib 30 ramALLOT
@@ -225,27 +225,22 @@ cvariable base
 \ dump memory, program and ram, in hex
 : d ( a - a')  dup hw. p! space 7 #, for @p+ hw. next p ;
 : r ( a - a')  dup hw. a! space 15 #, for c@+ hc. next a ;
--: .word  pad a!
-    p @p $ff #, and 2/ for @p+ w!+ next
-    pad count type space @p+ hw. ;
-
 \ interpretive debugging
 here [ 4 + constant dict ]
 : dictionary  $a5 #, p! ;
-: words  cr dictionary begin p @p while drop .word cr repeat drop ;
-: tib! ( c)
+-: tib! ( c)
     tib dup c@ 1+ over c! dup c@ + c! ;
-: echo ( c - c)  dup emit ;
-: query
+-: echo ( c - c)  dup emit ;
+-: query
     false tib ! false
     begin drop key BL max BL xor until BL xor echo tib!
     begin key BL max BL xor while BL xor echo tib! repeat
     drop BL tib dup c@ + 1+ c! ;
-: match (  - 0|n)  \ P has been loaded
+-: match (  - 0|n)  \ P has been loaded
     tib a! false
     p @p $ff #, and 2/ for w@+ @p+ - or next
     @p+ swap if drop drop false exit then drop ; 
-: find (  - a|0)
+-: find (  - a|0)
     dictionary  \ loads P register
     begin p @p while drop
         match if exit then drop
@@ -265,10 +260,17 @@ here [ 4 + constant dict ]
     depth 1 #, = if drop dup ." --> " ?. exit then drop
     ." --> " depth dup a! begin swap >r 1- while repeat drop
     a begin r@ ?. r> swap 1- while repeat drop ;
-: interpret
+-: interpret
     begin .s cr query space find while
         execute depth -if huh? then drop
     repeat tib count type huh?
 
 : c+! ( c a - ) swap over c@ + swap c! ;
+-: .word  pad a!
+    p @p $ff #, and 2/ for @p+ w!+ next
+    pad count type space @p+ drop ( hw.) ;
+: words  cr dictionary 0 #,
+    begin p @p while/
+        dup 7 #, and 0= if/ cr then 1+ .word
+    repeat drop ;
 

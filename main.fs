@@ -30,7 +30,7 @@ variable data 4 ramALLOT \ 6 bytes in all
 : init  initPortExpander initPins ;
 
 \ read the keyboard
-: pin| ( n mask pin - n')  @pin and or ;
+-: pin| ( n mask pin - n')  @pin and or ;
 : @pins (  - n)
     $20 #, @MCP23017  0 #, 
      $010000 #,  9 #, pin|
@@ -63,7 +63,7 @@ wvariable 'spit  \ execution tokens are 16 bits
     c@+ if $c0 #, or spit exit then spit ;
 
 \ Gemini protocol to the data array
-: mark ( mask a)  data + dup >r c@ or r> c! ; 
+-: mark ( mask a)  data + dup >r c@ or r> c! ; 
 : Gemini ( n)  /data $80 #, data c!
     dup $0100000 #, and if/ $40 #, 1 #, mark then \ S1
     dup $0200000 #, and if/ $10 #, 1 #, mark then \ T
@@ -124,7 +124,7 @@ wvariable 'spit  \ execution tokens are 16 bits
 : send-TXBolt  bolt ?send ;
 
 \ A-Z
-: spout ( stroke char mask - stroke )
+-: spout ( stroke char mask - stroke )
     2 #, ms
     rot dup >r and if/ Keyboard.write r> exit then
     drop BL Keyboard.write r> ;
@@ -158,7 +158,7 @@ wvariable 'spit  \ execution tokens are 16 bits
 
 \ NKRO keyboard mode
 cvariable former
-: spew ( c - )
+-: spew ( c - )
     dup Keyboard.press
     former c@ if dup Keyboard.release then
     drop former c! ; 
